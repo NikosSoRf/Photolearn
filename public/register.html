@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация - PhotoLearn</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body class="register-specific">
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>📸 PhotoLearn</h2>
+            </div>
+            <div class="nav-menu">
+                <a href="/" class="nav-link">Главная</a>
+                <a href="/courses" class="nav-link">Курсы</a>
+                <a href="/login" class="nav-link">Войти</a>
+                <a href="/register" class="nav-link nav-button">Регистрация</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Секция регистрации -->
+    <section class="auth-section">
+        <div class="auth-container">
+            <!-- Левая часть - описание -->
+            <div class="auth-hero">
+                <h1>Начните свой путь в фотографии</h1>
+                <p>Присоединяйтесь к сообществу фотографов и откройте для себя мир творческих возможностей. Обучайтесь у профессионалов и развивайте свои навыки.</p>
+                
+                <div class="auth-features">
+                    <div class="auth-feature">Доступ к всем курсам</div>
+                    <div class="auth-feature">Обратная связь от экспертов</div>
+                    <div class="auth-feature">Сообщество единомышленников</div>
+                    <div class="auth-feature">Персональный прогресс</div>
+                </div>
+            </div>
+
+            <!-- Правая часть - форма -->
+            <div class="auth-form-container">
+                <div class="auth-form-header">
+                    <h1>Создать аккаунт</h1>
+                    <p>Заполните форму чтобы начать обучение</p>
+                </div>
+
+                <form class="auth-form" id="registerForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">Имя</label>
+                            <input type="text" id="firstName" name="firstName" placeholder="Введите ваше имя" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Фамилия</label>
+                            <input type="text" id="lastName" name="lastName" placeholder="Введите вашу фамилию">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Пароль</label>
+                        <input type="password" id="password" name="password" placeholder="Создайте надежный пароль" required>
+                        <div class="password-requirements">Минимум 6 символов</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="role">Я хочу</label>
+                        <select id="role" name="role" required>
+                            <option value="">Выберите роль</option>
+                            <option value="student">Учиться фотографии</option>
+                            <option value="teacher">Преподавать фотографию</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="auth-submit-btn">
+                        Создать аккаунт
+                    </button>
+                </form>
+                
+                <div class="auth-footer">
+                    Уже есть аккаунт? <a href="/login">Войти</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/auth-check.js"></script>
+</body>
+</html>

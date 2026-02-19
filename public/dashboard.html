@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет - PhotoLearn</title>
+    <link rel="stylesheet" href="/css/s1.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/dashuploads.css">
+    <link rel="stylesheet" href="/css/dashteash.css">
+    
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>📸 PhotoLearn</h2>
+            </div>
+            <div class="nav-menu">
+                <a href="/" class="nav-link">Главная</a>
+                <a href="/courses" class="nav-link">Курсы</a>
+                <a href="/dashboard" class="nav-link active">Личный кабинет</a>
+                <div class="user-menu">
+                <span id="nav-user-name">Загрузка...</span>
+                <div id="nav-user-avatar" class="user-avatar">?</div>
+                <button id="logout-btn-nav" class="logout-btn" onclick="logout()" style="display: none;">
+                    Выйти
+                </button>
+            </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <div class="dashboard-container">
+        <!-- Сайдбар -->
+        <aside class="dashboard-sidebar">
+            <div class="user-profile">
+                <div id="sidebar-user-avatar" class="user-avatar-large">?</div>
+                <h3 id="sidebar-user-name">Загрузка...</h3>
+                <p id="sidebar-user-role">Роль</p>
+                <div class="user-stats">
+                    <div class="stat" id="stat-courses">
+                        <span class="stat-number">0</span>
+                        <span class="stat-label">Курсов</span>
+                    </div>
+                    <div class="stat" id="stat-progress">
+                        <span class="stat-number">0%</span>
+                        <span class="stat-label">Прогресс</span>
+                    </div>
+                    <div class="stat" id="stat-assignments" style="display: none;">
+                        <span class="stat-number">0</span>
+                        <span class="stat-label">Заданий</span>
+                    </div>
+                </div>
+                <div class="sidebar-actions">
+                <button id="logout-btn-sidebar" class="logout-btn-sidebar" onclick="logout()">
+                    <span class="nav-icon">🚪</span>
+                    Выйти из системы
+                </button>
+            </div>
+            </div>
+
+            <!-- Меню для студента -->
+            <nav id="student-nav" class="sidebar-nav" style="display: none;">
+                <a href="#progress" class="nav-item active" onclick="showSection('student-progress')">
+                    <span class="nav-icon">📊</span>
+                    Мой прогресс
+                </a>
+                <a href="#courses" class="nav-item" onclick="showSection('student-courses')">
+                    <span class="nav-icon">🎓</span>
+                    Мои курсы
+                </a>
+                <a href="#assignments" class="nav-item" onclick="showSection('student-assignments')">
+                    <span class="nav-icon">📷</span>
+                    Мои задания
+                </a>
+                <a href="#profile" class="nav-item" onclick="showSection('student-profile')">
+                    <span class="nav-icon">👤</span>
+                    Профиль
+                </a>
+            </nav>
+
+            <!-- Меню для преподавателя -->
+            <nav id="teacher-nav" class="sidebar-nav" style="display: none;">
+                <a href="#my-courses" class="nav-item active" onclick="showSection('teacher-courses')">
+                    <span class="nav-icon">📚</span>
+                    Мои курсы
+                </a>
+                <a href="#students" class="nav-item" onclick="showSection('teacher-students')">
+                    <span class="nav-icon">👥</span>
+                    Мои ученики
+                </a>
+                <a href="#check" class="nav-item" onclick="showSection('teacher-check')">
+                    <span class="nav-icon">✅</span>
+                    Проверка работ
+                </a>
+                <a href="#analytics" class="nav-item" onclick="showSection('teacher-analytics')">
+                    <span class="nav-icon">📈</span>
+                    Аналитика
+                </a>
+            </nav>
+
+            <!-- Меню для администратора -->
+            <nav id="admin-nav" class="sidebar-nav" style="display: none;">
+                <a href="#stats" class="nav-item active" onclick="showSection('admin-stats')">
+                    <span class="nav-icon">📊</span>
+                    Статистика
+                </a>
+                <a href="#courses-all" class="nav-item" onclick="showSection('admin-courses')">
+                    <span class="nav-icon">🎓</span>
+                    Все курсы
+                </a>
+                <a href="#users" class="nav-item" onclick="showSection('admin-users')">
+                    <span class="nav-icon">👥</span>
+                    Пользователи
+                </a>
+                <a href="#sales" class="nav-item" onclick="showSection('admin-sales')">
+                    <span class="nav-icon">💰</span>
+                    Продажи
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Основная область -->
+        <main class="dashboard-main">
+            <!-- Индикатор загрузки -->
+            <div id="dashboard-loading">
+                <div class="spinner"></div>
+                <p>Загрузка данных...</p>
+            </div>
+
+            <!-- Секция для студента -->
+            <div id="student-content" class="dashboard-content" style="display: none;">
+                <!-- Прогресс -->
+                <section id="student-progress" class="section active">
+                    <h1>Мой прогресс</h1>
+                    <div class="quick-stats">
+                    </div>
+                </section>
+
+                <!-- Мои курсы -->
+                <section id="student-courses" class="section" style="display: none;">
+                    <div class="section-header">
+                        <h2>Мои курсы</h2>
+                        <a href="/courses" class="btn btn-primary">Добавить курс</a>
+                    </div>
+                    <div id="student-courses-container" class="courses-grid">
+                    </div>
+                </section>
+
+                <!-- Мои задания -->
+                <section id="student-assignments" class="section" style="display: none;">
+                    <h2>Мои задания</h2>
+                    <div id="student-assignments-container">
+                    </div>
+                </section>
+
+                <!-- Профиль -->
+                <section id="student-profile" class="section" style="display: none;">
+                    <h2>Настройки профиля</h2>
+                    <!-- Форма профиля -->
+                </section>
+            </div>
+
+            <!-- Секция для преподавателя -->
+            <div id="teacher-content" class="dashboard-content" style="display: none;">
+                <!-- Мои курсы (преподаватель) -->
+                <section id="teacher-courses" class="section active">
+                    <div class="section-header">
+                        <h2>Мои курсы для преподавания</h2>
+                        <button class="btn btn-primary" onclick="createCourse()">Создать курс</button>
+                    </div>
+                    <div id="teacher-courses-container" class="courses-grid">
+                        <!-- Курсы преподавателя -->
+                    </div>
+                </section>
+
+                <!-- Мои ученики -->
+                <section id="teacher-students" class="section" style="display: none;">
+                    <h2>Мои ученики</h2>
+                    <div id="teacher-students-container">
+                        <!-- Список учеников -->
+                    </div>
+                </section>
+
+                <!-- Проверка работ -->
+                <section id="teacher-check" class="section" style="display: none;">
+                    <div class="section-header">
+                         <h2>Работы на проверку</h2>
+                            <div class="filter-actions">
+                                <select id="filter-course" class="filter-select">
+                                 <option value="">Все курсы</option>
+                                </select>
+                                <select id="filter-status" class="filter-select">
+                                    <option value="submitted">Ожидают проверки</option>
+                                    <option value="all">Все работы</option>
+                                    <option value="graded">Проверенные</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="teacher-check-container" class="assignments-check-container">
+                            <!-- Здесь будут загружаться работы -->
+                            <div class="loading-state">
+                                <div class="spinner"></div>
+                                <p>Загрузка работ на проверку...</p>
+                            </div>
+                        </div>
+                </section>
+                    <div id="review-modal" class="modal-overlay" style="display: none;">
+                        <div class="modal review-modal">
+                            <div class="modal-header">
+                                <h3>Проверка работы</h3>
+                                <button class="close-btn" onclick="closeReviewModal()">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="review-content">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Аналитика -->
+                <section id="teacher-analytics" class="section" style="display: none;">
+                    <h2>Аналитика курсов</h2>
+                    <!-- Графики и статистика -->
+                </section>
+            </div>
+
+            <!-- Секция для администратора -->
+            <div id="admin-content" class="dashboard-content" style="display: none;">
+                <!-- Статистика -->
+                <section id="admin-stats" class="section active">
+                    <h1>Статистика платформы</h1>
+                    <div class="admin-stats-grid">
+                        <!-- Статистика -->
+                    </div>
+                </section>
+
+                <!-- Все курсы -->
+                <section id="admin-courses" class="section" style="display: none;">
+                    <h2>Управление курсами</h2>
+                    <!-- Управление курсами -->
+                </section>
+
+                <!-- Пользователи -->
+                <section id="admin-users" class="section" style="display: none;">
+                    <h2>Управление пользователями</h2>
+                    <!-- Управление пользователями -->
+                </section>
+
+                <!-- Продажи -->
+                <section id="admin-sales" class="section" style="display: none;">
+                    <h2>Статистика продаж</h2>
+                    <!-- Продажи -->
+                </section>
+            </div>
+        </main>
+    </div>
+<!-- Модальное окно управления курсом -->
+<div id="manage-course-modal" class="modal-overlay" style="display: none;">
+    <div class="modal manage-course-modal">
+        <div class="modal-header">
+            <h3 id="manage-course-title">Управление курсом</h3>
+            <button class="close-btn" onclick="closeManageCourseModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div id="manage-course-content">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно создания/редактирования курса -->
+<div id="edit-course-modal" class="modal-overlay" style="display: none;">
+    <div class="modal edit-course-modal">
+        <div class="modal-header">
+            <h3 id="edit-course-title">Создание курса</h3>
+            <button class="close-btn" onclick="closeEditCourseModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="course-form">
+                <div class="form-group">
+                    <label for="course-title">Название курса *</label>
+                    <input type="text" id="course-title" name="title" required 
+                           placeholder="Введите название курса">
+                </div>
+                
+                <div class="form-group">
+                    <label for="course-description">Описание курса *</label>
+                    <textarea id="course-description" name="description" required 
+                              rows="4" placeholder="Опишите содержание курса"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="course-level">Уровень сложности</label>
+                        <select id="course-level" name="level">
+                            <option value="basic">Базовый</option>
+                            <option value="intermediate">Средний</option>
+                            <option value="advanced">Продвинутый</option>
+                            <option value="specialized">Специализация</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="course-price">Цена (руб.)</label>
+                        <input type="number" id="course-price" name="price" 
+                               min="0" step="100" placeholder="0">
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeEditCourseModal()">
+                        Отмена
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно управления модулями -->
+<div id="manage-modules-modal" class="modal-overlay" style="display: none;">
+    <div class="modal manage-modules-modal">
+        <div class="modal-header">
+            <h3>Управление модулями</h3>
+            <button class="close-btn" onclick="closeManageModulesModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div id="modules-list-container">
+                <!-- Список модулей -->
+            </div>
+            <div class="add-module-section">
+                <h4>Добавить новый модуль</h4>
+                <form id="add-module-form">
+                    <div class="form-group">
+                        <input type="text" id="module-title" name="title" 
+                               placeholder="Название модуля" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="module-description" name="description" 
+                                  placeholder="Описание модуля" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Добавить модуль</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно просмотра студентов -->
+<div id="course-students-modal" class="modal-overlay" style="display: none;">
+    <div class="modal course-students-modal">
+        <div class="modal-header">
+            <h3>Студенты курса</h3>
+            <button class="close-btn" onclick="closeCourseStudentsModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div id="students-list-container">
+                <!-- Список студентов -->
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/dashstud.js"></script>
+    <script src="/js/dashteacher.js"></script>
+
+     <!--<script src="/js/assignment-upload.js"></script>-->
+    <style>
+.photo-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.photo-modal {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+.photo-modal-header {
+    padding: 20px;
+    background: #2c3e50;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.photo-modal-body {
+    padding: 20px;
+    text-align: center;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.photo-modal-body img {
+    max-width: 100%;
+    max-height: 50vh;
+    border-radius: 8px;
+}
+
+.photo-modal-footer {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+</style>
+    <style>
+        .spinner {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        /* Стили для кнопки выхода в навбаре */
+.logout-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-left: 15px;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+.logout-btn:active {
+    transform: translateY(0);
+}
+
+/* Стили для кнопки выхода в сайдбаре */
+.sidebar-actions {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.logout-btn-sidebar {
+    width: 100%;
+    background: #f8f9fa;
+    color: #e74c3c;
+    border: 2px solid #ffcdd2;
+    padding: 12px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.logout-btn-sidebar:hover {
+    background: #ffebee;
+    color: #c62828;
+    border-color: #e74c3c;
+    transform: translateY(-2px);
+}
+
+/* Стили для уведомления о просроченном токене */
+.token-expired-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.token-expired-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.4s ease-out;
+}
+
+.token-expired-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    color: #e74c3c;
+}
+
+.token-expired-content h3 {
+    margin: 0 0 15px 0;
+    color: #2c3e50;
+}
+
+.token-expired-content p {
+    color: #666;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.token-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+    </style>
+    
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактирование курса - PhotoLearn</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/course.css">
+    <link rel="stylesheet" href="/css/edit.css">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/dashboard.html" class="nav-logo">
+                <h2 style="margin: 0; display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.5rem;">📷</span> PhotoLearn
+                </h2>
+            </a>
+            <div class="nav-menu">
+                <a href="/dashboard.html" class="nav-link">Главная</a>
+                <a href="/courses.html" class="nav-link">Курсы</a>
+                <button onclick="logout()" class="btn nav-button" style="padding: 10px 20px;">Выйти</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="edit-course-container">
+        <div class="page-header">
+            <h1 id="page-title">Редактирование курса</h1>
+            <p id="page-description">Управление информацией о курсе, модулями и уроками</p>
+        </div>
+        
+        <!-- Основная информация о курсе -->
+        <form id="edit-course-form" class="form-section">
+            <div class="form-group">
+                <label for="course-title" class="form-label">Название курса *</label>
+                <input type="text" id="course-title" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="course-description" class="form-label">Описание курса *</label>
+                <textarea id="course-description" class="form-control form-textarea" required></textarea>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="course-level" class="form-label">Уровень сложности</label>
+                    <select id="course-level" class="form-control">
+                        <option value="basic">Базовый</option>
+                        <option value="intermediate">Средний</option>
+                        <option value="advanced">Продвинутый</option>
+                        <option value="specialized">Специализация</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="course-price" class="form-label">Цена курса (руб.)</label>
+                    <input type="number" id="course-price" class="form-control" min="0" step="100">
+                </div>
+                
+                <div class="form-group">
+                    <label for="course-published" class="form-label">Статус</label>
+                    <select id="course-published" class="form-control">
+                        <option value="false">Черновик</option>
+                        <option value="true">Опубликован</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="video-call-link" class="form-label">Ссылка на видео-встречи (опционально)</label>
+                <input type="url" id="video-call-link" class="form-control">
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-update">Сохранить изменения</button>
+                <button type="button" onclick="window.history.back()" class="btn btn-secondary">Назад</button>
+            </div>
+        </form>
+        
+        <!-- Секция модулей -->
+        <div class="modules-section">
+            <div class="section-header">
+                <h2>Модули курса</h2>
+                <button id="btn-add-module" class="btn btn-add-module">+ Добавить модуль</button>
+            </div>
+            
+            <div id="modules-container">
+                <div class="loading">Загрузка модулей...</div>
+            </div>
+            
+            <!-- Форма добавления нового модуля (скрыта по умолчанию) -->
+            <div id="add-module-form" style="display: none; margin-top: 20px;">
+                <h3 style="margin-bottom: 20px; color: #333;">Новый модуль</h3>
+                <div class="form-group">
+                    <input type="text" id="new-module-title" class="form-control" placeholder="Название модуля">
+                </div>
+                <div class="form-group">
+                    <textarea id="new-module-description" class="form-control form-textarea" placeholder="Описание модуля"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button id="btn-save-module" class="btn btn-update">Сохранить модуль</button>
+                    <button id="btn-cancel-module" class="btn btn-secondary">Отмена</button>
+                </div>
+            </div>
+        </div>
+        <!-- Дополнительная секция для управления уроками (будет показана при клике на модуль) -->
+        <div id="module-details-section" style="display: none; margin-top: 30px;">
+            <div class="section-header">
+                <h2>Уроки модуля: <span id="current-module-name"></span></h2>
+                <button onclick="hideModuleDetails()" class="btn btn-secondary">← Назад к модулям</button>
+            </div>
+            
+            <div class="lessons-management" id="lessons-management-container">
+                <div class="loading">Загрузка уроков...</div>
+            </div>
+            
+            <div class="form-actions" style="margin-top: 20px;">
+                <button onclick="showAddLessonForm()" class="btn btn-add-module">+ Добавить урок</button>
+            </div>
+        </div>
+
+        <!-- Форма добавления/редактирования урока -->
+        <div id="lesson-editor-container" style="display: none; margin-top: 30px; padding: 25px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <div class="section-header">
+                <h3 id="lesson-editor-title">Новый урок</h3>
+                <button onclick="hideLessonEditor()" class="btn btn-secondary">✕ Отмена</button>
+            </div>
+            
+            <form id="lesson-editor-form" class="form-section" style="margin-top: 20px;">
+                <div class="form-group">
+                    <label for="edit-lesson-title" class="form-label">Название урока *</label>
+                    <input type="text" id="edit-lesson-title" class="form-control" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-lesson-type" class="form-label">Тип урока *</label>
+                        <select id="edit-lesson-type" class="form-control" required onchange="toggleLessonContentType()">
+                            <option value="theory">📘 Теория</option>
+                            <option value="test">📝 Тест</option>
+                            <option value="creative_task">📷 Творческое задание</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-lesson-order" class="form-label">Порядковый номер</label>
+                        <input type="number" id="edit-lesson-order" class="form-control" min="1" value="1">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-lesson-content" class="form-label">Содержание урока *</label>
+                    <textarea id="edit-lesson-content" class="form-control form-textarea" rows="8" required placeholder="Введите содержание урока..."></textarea>
+                    <div id="lesson-content-hint" style="margin-top: 5px; font-size: 12px; color: #666;">
+                        <span id="content-hint-text">HTML-разметка поддерживается</span>
+                    </div>
+                </div>
+                
+                <!-- Дополнительные поля для разных типов уроков -->
+                <div id="lesson-extra-fields" style="display: none;">
+                    <!-- Для тестов -->
+                    <div id="test-fields" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label">Формат теста:</label>
+                            <div>
+                                <label style="margin-right: 20px;">
+                                    <input type="radio" name="test-format" value="single" checked> Один правильный ответ
+                                </label>
+                                <label>
+                                    <input type="radio" name="test-format" value="multiple"> Несколько правильных ответов
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Количество вопросов</label>
+                            <input type="number" id="test-question-count" class="form-control" min="1" max="50" value="10">
+                        </div>
+                    </div>
+                    
+                    <!-- Для творческих заданий -->
+                    <div id="creative-task-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="task-max-files" class="form-label">Максимум файлов</label>
+                            <input type="number" id="task-max-files" class="form-control" min="1" max="20" value="5">
+                        </div>
+                        <div class="form-group">
+                            <label for="task-max-size" class="form-label">Максимальный размер файла (МБ)</label>
+                            <input type="number" id="task-max-size" class="form-control" min="1" max="50" value="20">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Разрешенные форматы</label>
+                            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 5px;">
+                                <label><input type="checkbox" name="task-formats" value="jpg" checked> JPG</label>
+                                <label><input type="checkbox" name="task-formats" value="png" checked> PNG</label>
+                                <label><input type="checkbox" name="task-formats" value="raw" checked> RAW</label>
+                                <label><input type="checkbox" name="task-formats" value="psd"> PSD</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-lesson-video" class="form-label">Ссылка на видео (YouTube, Vimeo и т.д.)</label>
+                    <input type="url" id="edit-lesson-video" class="form-control" placeholder="https://www.youtube.com/watch?v=...">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Прикрепленные файлы (макс. 50 МБ каждый)</label>
+                    <input type="file" id="lesson-attachments" class="form-control" multiple>
+                    <div id="attachments-preview" style="margin-top: 10px;"></div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-update" id="lesson-save-btn">Сохранить урок</button>
+                    <button type="button" onclick="hideLessonEditor()" class="btn btn-secondary">Отмена</button>
+                </div>
+            </form>
+        </div>
+        <div id="message-container"></div>
+    </main>
+
+    <script src="/js/auth-check.js"></script>
+    <script src="/js/edit-course.js"></script>
+</body>
+</html>

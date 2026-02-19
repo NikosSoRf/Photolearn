@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход - PhotoLearn</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/auth.css">
+   
+</head>
+<body class="login-specific">
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>PhotoLearn</h2>
+            </div>
+            <div class="nav-menu">
+                <a href="/" class="nav-link">Главная</a>
+                <a href="/courses" class="nav-link">Курсы</a>
+                <a href="/login" class="nav-link">Войти</a>
+                <a href="/register" class="nav-link nav-button">Регистрация</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Секция входа -->
+    <section class="auth-section">
+        <div class="auth-container">
+            <!-- Левая часть - описание -->
+            <div class="auth-hero">
+                <h1>С возвращением!</h1>
+                <p>Продолжайте свое обучение фотографии. Получайте новые знания, выполняйте задания и становитесь лучше с каждым днем.</p>
+                
+                <div class="auth-features">
+                    <div class="auth-feature">Продолжите с того места, где остановились</div>
+                    <div class="auth-feature">Новые задания ждут проверки</div>
+                    <div class="auth-feature">Персональные рекомендации</div>
+                    <div class="auth-feature">Общайтесь с преподавателями</div>
+                </div>
+            </div>
+
+            <!-- Правая часть - форма -->
+            <div class="auth-form-container">
+                <div class="auth-form-header">
+                    <h1>Вход в аккаунт</h1>
+                    <p>Войдите чтобы продолжить обучение</p>
+                </div>
+
+                <form class="auth-form" id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Пароль</label>
+                        <input type="password" id="password" name="password" placeholder="Введите ваш пароль" required>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+                            <input type="checkbox" name="remember">
+                            Запомнить меня
+                        </label>
+                        <a href="#" style="color: #3498db; text-decoration: none; font-size: 0.9rem;">Забыли пароль?</a>
+                    </div>
+                    
+                    <button type="submit" class="auth-submit-btn">
+                        Войти в аккаунт
+                    </button>
+                    
+                </form>
+                
+                <div class="auth-footer">
+                    Нет аккаунта? <a href="/register">Зарегистрироваться</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <script src="/js/auth.js"></script>
+    <script src="/js/auth-check.js"></script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок - PhotoLearn</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lesson.css">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2><a href="/" style="color: inherit; text-decoration: none;">PhotoLearn</a></h2>
+            </div>
+            <div class="nav-menu">
+                <a href="/" class="nav-link">Главная</a>
+                <a href="/courses" class="nav-link">Курсы</a>
+                <a href="/dashboard" class="nav-link">Личный кабинет</a>
+                <span id="user-greeting" style="color: #333; margin-left: 15px;"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="lesson-container">
+        <div class="lesson-header">
+            <div class="breadcrumbs" id="breadcrumbs">
+            </div>
+            
+            <div class="lesson-navigation" id="lesson-navigation">
+                <!-- Кнопки навигации между уроками -->
+            </div>
+        </div>
+
+        <!-- Основной контент урока -->
+        <div class="lesson-content-wrapper">
+            <!-- Загрузка -->
+            <div id="lesson-loading" class="loading">
+                <div class="spinner"></div>
+                <p>Загрузка урока...</p>
+            </div>
+
+            <div id="lesson-error" class="error-message" style="display: none;">
+                Не удалось загрузить урок. Попробуйте позже.
+            </div>
+
+            <!-- Контент урока -->
+            <div id="lesson-content" style="display: none;">
+                <!-- Заголовок и мета-информация -->
+                <header class="lesson-header-content">
+                    <div class="lesson-type-badge" id="lesson-type"></div>
+                    <h1 id="lesson-title"></h1>
+                    <div class="lesson-meta">
+                        <span id="lesson-course"></span>
+                        <span id="lesson-module"></span>
+                        <span id="lesson-number"></span>
+                    </div>
+                </header>
+
+                <!-- Контент урока -->
+                <article class="lesson-article" id="lesson-article">
+                </article>
+
+                <!-- Для творческих заданий -->
+                <section class="assignment-section" id="assignment-section" style="display: none;">
+                    <h3>📷 Творческое задание</h3>
+                    <div class="assignment-instructions" id="assignment-instructions"></div>
+                    
+                    <div class="upload-area" id="upload-area">
+                        <h4>Загрузите вашу работу</h4>
+                        <form id="upload-form" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="assignment-comment">Комментарий к работе (необязательно):</label>
+                                <textarea id="assignment-comment" name="comment" rows="3" 
+                                     placeholder="Опишите вашу работу, если это необходимо..."></textarea>
+                            </div>
+                            <input type="file" id="photo-upload" name="photo" accept="image/*" class="file-input">
+                            <label for="photo-upload" class="file-label">
+                                <span>Выберите файл</span>
+                                <span class="file-name" id="file-name">Файл не выбран</span>
+                            </label>
+                            <div class="upload-info">
+                             <p><small>Поддерживаемые форматы: JPG, PNG, GIF, BMP, WebP</small></p>
+                             <p><small>Максимальный размер: 50 МБ</small></p>
+                             </div>
+                            <button type="submit" class="btn btn-primary" id="submit-btn">
+                                Отправить на проверку
+                            </button>
+                        </form>
+                        <div id="upload-progress" style="display: none;">
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <p>Загрузка...</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Для тестов -->
+                <section class="quiz-section" id="quiz-section" style="display: none;">
+                    <h3>📝 Тест</h3>
+                    <div id="quiz-content"></div>
+                    <button class="btn btn-primary" id="submit-quiz-btn">
+                        Отправить ответы
+                    </button>
+                </section>
+
+                <!-- Навигация внизу -->
+                <div class="lesson-footer-nav">
+                    <button class="btn btn-secondary" id="prev-lesson-btn">
+                        ← Предыдущий урок
+                    </button>
+                    <button class="btn btn-primary" id="next-lesson-btn">
+                        Следующий урок →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Сайдбар с содержанием курса -->
+        <aside class="course-sidebar" id="course-sidebar">
+            <h3>Содержание курса</h3>
+            <div id="course-toc">
+            </div>
+        </aside>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 PhotoLearn. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="/js/lesson.js"></script>
+</body>
+</html>

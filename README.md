@@ -2,6 +2,30 @@
 проект реализации веб-приложения для обучения фотографии. Созданы основные взаимодействия между сервером и клиентом, проработана логика работы преподавателя и ученика с регистрацией, заданиями и записью на курс.
 Основной стек технологий: Node.js + Express.js + Sequelize + MySQL
 
+Основные зависимости
+
+dependencies{	
+	
+    "bcryptjs": "^3.0.3",	
+    "cors": "^2.8.5",	
+    "dotenv": "^17.2.3",	
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.2",
+    "mysql2": "^3.15.3",
+    "node-fetch": "^3.3.2",
+    "sequelize": "^6.37.7"
+  },
+  devDependencies{
+	
+    "nodemon": "^3.1.11"
+  },
+  scripts {
+	
+    "start": "node server.js",
+    "dev": "nodemon s1.js"
+  }
+  
 
 <img width="493" height="618" alt="image" src="https://github.com/user-attachments/assets/9d9657a0-c7a6-4218-8572-2fc1fdd59395" />
 
